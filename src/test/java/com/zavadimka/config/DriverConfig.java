@@ -12,7 +12,7 @@ public class DriverConfig {
 
     public String remoteUrl= webDriverConfig.getDriverRemoteUrl();
     public String baseUrl= webDriverConfig.getBaseUrl();
-    public Browser browserName = webDriverConfig.getBrowserName();
+    public String browserName = webDriverConfig.getBrowserName();
     public String browserVersion = webDriverConfig.getBrowserVersion();
     public String browserSize = webDriverConfig.getBrowserSize();
 

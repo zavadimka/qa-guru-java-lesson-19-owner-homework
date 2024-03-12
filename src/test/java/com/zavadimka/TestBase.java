@@ -4,6 +4,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.zavadimka.config.DriverConfig;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -14,25 +15,28 @@ public class TestBase {
 
     private WebDriver driver;
 
-    @BeforeEach
-    void beforeEach() {
-        // Подключаем логгер и добавляем слушателя
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-
+    @BeforeAll
+    static void beforeAll(){
         getDestination();
         createDriverConfig(System.getProperty("destination"));
     }
 
-    public void getDestination () {
+    @BeforeEach
+    void beforeEach() {
+        // Подключаем логгер и добавляем слушателя
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+    }
+
+    public static void getDestination() {
         String destination = System.getProperty("destination", "remote");
         System.setProperty("destination", destination);
     }
 
-    public void createDriverConfig(String destination){
+    public static void createDriverConfig(String destination){
         DriverConfig driverConfig = new DriverConfig(destination);
 
         Configuration.baseUrl = driverConfig.baseUrl;
-        Configuration.browser = String.valueOf(driverConfig.browserName);
+        Configuration.browser = driverConfig.browserName;
         Configuration.browserSize = driverConfig.browserSize;
         Configuration.browserVersion = driverConfig.browserVersion;
 
